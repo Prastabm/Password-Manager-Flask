@@ -51,6 +51,10 @@ def get_password(user_id, encrypted_password):
         print(f"Decryption error: {str(e)}")  # For debugging
         return "**Error: Cannot decrypt password**"
 
+@main.route('/healthz')
+def health_check():
+    return "OK", 200
+
 @main.route('/')
 def landing():
     # If user is already logged in, redirect to dashboard
