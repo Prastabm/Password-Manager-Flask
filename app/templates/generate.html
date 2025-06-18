@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <title>Generate Password - Password Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-200">
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-800 dark:bg-gray-950 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="text-xl font-semibold">Password Manager</a>
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors">
+                    <!-- Sun icon -->
+                    <svg id="light-icon" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
+                    </svg>
+                    <!-- Moon icon -->
+                    <svg id="dark-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+                    </svg>
+                </button>
+                <a href="/logout" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                    </svg>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Generate Password</h2>
+
+                <form method="post" class="space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                        <div class="flex items-center gap-3">
+                            <label for="length" class="text-gray-700 dark:text-gray-300 font-medium">Length:</label>
+                            <input
+                                type="number"
+                                id="length"
+                                name="length"
+                                min="4"
+                                max="20"
+                                value="12"
+                                required
+                                class="w-24 border dark:border-gray-600 rounded-lg px-3 py-2
+                                       text-gray-700 dark:text-gray-300
+                                       bg-white dark:bg-gray-700
+                                       focus:outline-none focus:ring-2
+                                       focus:ring-blue-500 dark:focus:ring-blue-400
+                                       focus:border-blue-500 dark:focus:border-blue-400"
+                            >
+                        </div>
+                        <button
+                            type="submit"
+                            class="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg
+                                   hover:bg-blue-700 transition-colors duration-200 font-medium"
+                        >
+                            Generate Password
+                        </button>
+                    </div>
+                </form>
+
+                {% if password %}
+                <div class="mt-8 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg border dark:border-gray-600">
+                    <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-4">Generated Password</h3>
+                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                        <div class="relative w-full">
+                            <input
+                                id="genpwd"
+                                value="{{ password }}"
+                                readonly
+                                class="w-full px-4 py-2 pr-12 bg-white dark:bg-gray-800
+                                       border dark:border-gray-600 rounded-lg
+                                       text-gray-700 dark:text-gray-300 font-mono
+                                       focus:outline-none focus:ring-2
+                                       focus:ring-blue-500 dark:focus:ring-blue-400"
+                            >
+                        </div>
+                        <button
+                            onclick="copyGenerated()"
+                            class="w-full sm:w-auto px-4 py-2 bg-gray-200 dark:bg-gray-600
+                                   text-gray-700 dark:text-gray-300 rounded-lg
+                                   hover:bg-gray-300 dark:hover:bg-gray-500
+                                   transition-colors duration-200 flex items-center justify-center gap-2"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Quick Navigation -->
+            <div class="flex justify-center gap-4 mt-8">
+                <a href="/view" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    View Passwords
+                </a>
+                <a href="/add" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                    Add Password
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const lightIcon = document.getElementById('light-icon');
+        const darkIcon = document.getElementById('dark-icon');
+
+        function initializeTheme() {
+            const isDark = localStorage.theme === 'dark' ||
+                (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+            document.documentElement.classList.toggle('dark', isDark);
+            lightIcon.classList.toggle('hidden', !isDark);
+            darkIcon.classList.toggle('hidden', isDark);
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+            lightIcon.classList.toggle('hidden', !isDark);
+            darkIcon.classList.toggle('hidden', isDark);
+        }
+
+        // Copy password functionality
+        function copyGenerated() {
+            const pwd = document.getElementById('genpwd');
+            pwd.select();
+            navigator.clipboard.writeText(pwd.value).then(() => {
+                // You could replace this with a more elegant notification
+                alert('Password copied to clipboard!');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeTheme);
+        themeToggleBtn.addEventListener('click', toggleTheme);
+    </script>
+</body>
+</html>

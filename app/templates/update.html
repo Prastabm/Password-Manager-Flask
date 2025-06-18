@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Password</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-gray-800 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <a href="/" class="text-xl font-semibold">Password Manager</a>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 mt-8">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Update Password for {{ account }}</h2>
+        <form method="post" class="space-y-4 max-w-md">
+            <div class="space-y-2">
+                Domain: <input name="domain" value="{{ data.domain }}"
+                    class="ml-2 border rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"><br>
+                Password: <input name="password" value="{{ data.password }}"
+                    class="ml-2 border rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"><br>
+                <button type="submit"
+                    class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200">
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
