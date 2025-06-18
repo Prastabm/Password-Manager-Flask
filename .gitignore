@@ -1,2 +1,6 @@
 firebase_key.json
+instance/*
+!instance/.gitignore
+.webassets-cache
 .env
+
