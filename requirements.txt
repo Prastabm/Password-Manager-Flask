@@ -6,4 +6,5 @@ itsdangerous==2.2.0
 click==8.2.1
 blinker==1.9.0
 python-dotenv==1.0.1
+gunicorn
 
