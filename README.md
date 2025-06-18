@@ -21,7 +21,7 @@ A secure, web-based password manager built with Flask and Firebase that allows u
 - **Encryption**: cryptography.fernet
 - **Authentication**: Firebase Authentication
 
-## Access the project here:
+## Access the project here: https://password-manager-flask-1.onrender.com/
 
 ## Future Enhancements
 
